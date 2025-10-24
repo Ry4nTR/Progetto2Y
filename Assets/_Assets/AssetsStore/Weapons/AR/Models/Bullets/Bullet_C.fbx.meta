@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8f4e0054436e5b34083b35c19a1fe054
+guid: 8ff74cf95487f9e4b910bdf4ea77db01
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -105,3 +105,10 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 313750
+  packageName: Low Poly AR Weapon Pack 3
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly AR Weapon Pack 3/Models/Bullets/Bullet_C.fbx
+  uploadId: 741608

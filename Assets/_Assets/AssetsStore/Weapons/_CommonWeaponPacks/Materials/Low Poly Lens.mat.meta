@@ -8,8 +8,9 @@ NativeFormatImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 322992
-  packageName: Low Poly Pistol Weapon Pack 3
+  productId: 313750
+  packageName: Low Poly AR Weapon Pack 3
   packageVersion: 1.0
-  assetPath: Assets/_Assets/AssetsStore/Weapons/AR/Materials/Low Poly Lens.mat
-  uploadId: 774705
+  assetPath: Assets/_Assets/AssetsStore/Weapons/_CommonWeaponPacks/Materials/Low
+    Poly Lens.mat
+  uploadId: 741608
