@@ -8,13 +8,13 @@
 public class CharacterLookController : MonoBehaviour
 {
     // 1) Statici / costanti
-    private const float DEFAULT_MAX_PITCH = 85f;
-    private const float DEFAULT_MIN_PITCH = -85f;
+    private const float DEFAULT_MAX_PITCH = 50f;
+    private const float DEFAULT_MIN_PITCH = -40f;
 
     // 2) Campi pubblici/serializzati
     [SerializeField] private PlayerInputHandler inputManager; // preferito: componente sullo stesso player
     [SerializeField] private Transform cameraHolder;
-    [SerializeField] private float sensitivity = 1.5f;
+    [SerializeField] private float sensitivity = 5f;
     [SerializeField] private bool invertY = false;
     [SerializeField] private float maxPitch = DEFAULT_MAX_PITCH;
     [SerializeField] private float minPitch = DEFAULT_MIN_PITCH;
@@ -111,8 +111,8 @@ public class CharacterLookController : MonoBehaviour
         if (invertY) rawDelta.y = -rawDelta.y;
 
         // applica tranquillamente sensitivity (no deltaTime, no smoothing)
-        float deltaYaw = rawDelta.x * Sensitivity;
-        float deltaPitch = rawDelta.y * Sensitivity;
+        float deltaYaw = rawDelta.x * Sensitivity * .01f;
+        float deltaPitch = rawDelta.y * Sensitivity * .01f;
 
         Yaw += deltaYaw;
         Pitch += deltaPitch;
