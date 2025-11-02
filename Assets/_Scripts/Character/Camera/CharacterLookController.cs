@@ -1,15 +1,20 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+Ôªøusing UnityEngine;
 
+/// <summary>
+/// CharacterLookController: usa l'InputManager locale (PlayerInput ‚Üí Send Messages) per leggere look.
+/// Nessuno smoothing: raw look * sensitivity per massima reattivit√†.
+/// </summary>
+[DisallowMultipleComponent]
 public class CharacterLookController : MonoBehaviour
 {
     // 1) Statici / costanti
-    private const float DEFAULT_MAX_PITCH = 50;
-    private const float DEFAULT_MIN_PITCH = -40f;
+    private const float DEFAULT_MAX_PITCH = 85f;
+    private const float DEFAULT_MIN_PITCH = -85f;
 
     // 2) Campi pubblici/serializzati
+    [SerializeField] private PlayerInputHandler inputManager; // preferito: componente sullo stesso player
     [SerializeField] private Transform cameraHolder;
-    [SerializeField] private float sensitivity = .1f;
+    [SerializeField] private float sensitivity = 1.5f;
     [SerializeField] private bool invertY = false;
     [SerializeField] private float maxPitch = DEFAULT_MAX_PITCH;
     [SerializeField] private float minPitch = DEFAULT_MIN_PITCH;
@@ -18,7 +23,7 @@ public class CharacterLookController : MonoBehaviour
     private float pitch;
     private float yaw;
 
-    // 4) Propriet‡
+    // 4) Propriet√†
     public float Pitch
     {
         get { return pitch; }
@@ -57,17 +62,15 @@ public class CharacterLookController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.SetCursorLocked(true);
-        }
+        // lock cursore tramite manager se disponibile
+        if (inputManager != null) inputManager.SetCursorLocked(true);
     }
 
     private void Start()
     {
         if (cameraHolder == null)
         {
-            Debug.LogWarning("CharacterLookController: cameraHolder non Ë assegnato. Pitch non applicato.", this);
+            Debug.LogWarning("CharacterLookController: cameraHolder non √® assegnato. Il pitch non sar√† applicato.", this);
         }
     }
 
@@ -78,10 +81,7 @@ public class CharacterLookController : MonoBehaviour
 
     private void OnDisable()
     {
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.SetCursorLocked(false);
-        }
+        if (inputManager != null) inputManager.SetCursorLocked(false);
     }
 
     // 6) Metodi pubblici
@@ -99,24 +99,18 @@ public class CharacterLookController : MonoBehaviour
         ApplyRotationInstant();
     }
 
-    public void SetSensitivity(float newSensitivity)
-    {
-        Sensitivity = newSensitivity;
-    }
-
     // 7) Metodi privati
     private void HandleLook()
     {
-        if (InputManager.Instance == null) return;
+        // leggi look dal manager locale (preferenza) o dal global fallback
+        if (inputManager == null) return;
 
-        // raw delta in pixel/frame (o come Ë configurato nelle action)
-        Vector2 rawDelta = InputManager.Instance.GetLook();
+        Vector2 rawDelta = inputManager.look;
 
         // invert Y se richiesto
         if (invertY) rawDelta.y = -rawDelta.y;
 
-        // applica solo sensitivity: rawDelta * sensitivity
-        // NON uso Time.deltaTime nÈ smoothing per massima reattivit‡
+        // applica tranquillamente sensitivity (no deltaTime, no smoothing)
         float deltaYaw = rawDelta.x * Sensitivity;
         float deltaPitch = rawDelta.y * Sensitivity;
 
@@ -124,7 +118,6 @@ public class CharacterLookController : MonoBehaviour
         Pitch += deltaPitch;
         Pitch = Mathf.Clamp(Pitch, minPitch, maxPitch);
 
-        // Applica rotazioni immediate
         transform.rotation = Quaternion.Euler(0f, Yaw, 0f);
 
         if (cameraHolder != null)
