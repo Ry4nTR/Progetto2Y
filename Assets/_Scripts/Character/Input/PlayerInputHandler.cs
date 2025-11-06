@@ -16,9 +16,6 @@ public class PlayerInputHandler : MonoBehaviour
     [Header("Cursor")]
     [SerializeField] private bool lockCursorOnEnable = true;
 
-    [Header("Fallback (optional)")]
-    [SerializeField] private bool useFallbackInputActions = false;
-
     // 2) Campi pubblici (imitando StarterAssetsInputs)
     [Header("Character Input Values")]
     public Vector2 move;
@@ -30,20 +27,12 @@ public class PlayerInputHandler : MonoBehaviour
     public float scroll;
 
     // 3) Campi privati
-    private PlayerInputSystem fallbackActions;
+    // (nessuno)
 
     // 4) Event facoltativi
     public event Action<Vector2> OnLookEvent = delegate { };
 
     // 5) MonoBehaviour methods
-    private void Awake()
-    {
-        if (useFallbackInputActions)
-        {
-            InitializeFallbackActions();
-        }
-    }
-
     private void OnEnable()
     {
         if (lockCursorOnEnable)
@@ -60,26 +49,6 @@ public class PlayerInputHandler : MonoBehaviour
         fire = false;
         aim = false;
         scroll = 0f;
-    }
-
-    private void OnDisable()
-    {
-        if (useFallbackInputActions && fallbackActions != null)
-        {
-            fallbackActions.Disable();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (fallbackActions != null)
-        {
-            fallbackActions.Player.Look.performed -= OnFallbackLook;
-            fallbackActions.Player.Look.canceled -= OnFallbackLookCanceled;
-            fallbackActions.Disable();
-            fallbackActions.Dispose();
-            fallbackActions = null;
-        }
     }
 
     // 6) SendMessage target methods (PlayerInput -> Send Messages)
@@ -161,25 +130,5 @@ public class PlayerInputHandler : MonoBehaviour
     {
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !locked;
-    }
-
-    // 8) Fallback input init (opzionale)
-    private void InitializeFallbackActions()
-    {
-        fallbackActions = new PlayerInputSystem();
-        fallbackActions.Enable();
-        fallbackActions.Player.Look.performed += OnFallbackLook;
-        fallbackActions.Player.Look.canceled += OnFallbackLookCanceled;
-    }
-
-    private void OnFallbackLook(InputAction.CallbackContext ctx)
-    {
-        Vector2 v = ctx.ReadValue<Vector2>();
-        LookInput(v);
-    }
-
-    private void OnFallbackLookCanceled(InputAction.CallbackContext ctx)
-    {
-        LookInput(Vector2.zero);
     }
 }
