@@ -83,7 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   lockCursorOnEnable: 1
-  useFallbackInputActions: 0
   move: {x: 0, y: 0}
   look: {x: 0, y: 0}
   jump: 0
@@ -103,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5d679a0fa28964c976afa0e983fd67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterLookController
-  inputManager: {fileID: 831554826967024705}
+  inputHandler: {fileID: 831554826967024705}
   cameraHolder: {fileID: 6586182560886131289}
   sensitivity: 5
   invertY: 0
