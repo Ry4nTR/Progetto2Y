@@ -12,7 +12,7 @@ public class CharacterLookController : MonoBehaviour
     private const float DEFAULT_MIN_PITCH = -40f;
 
     // 2) Campi pubblici/serializzati
-    [SerializeField] private PlayerInputHandler inputManager; // preferito: componente sullo stesso player
+    [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private Transform cameraHolder;
     [SerializeField] private float sensitivity = 5f;
     [SerializeField] private bool invertY = false;
@@ -63,7 +63,7 @@ public class CharacterLookController : MonoBehaviour
     private void OnEnable()
     {
         // lock cursore tramite manager se disponibile
-        if (inputManager != null) inputManager.SetCursorLocked(true);
+        if (inputHandler != null) inputHandler.SetCursorLocked(true);
     }
 
     private void Start()
@@ -81,7 +81,7 @@ public class CharacterLookController : MonoBehaviour
 
     private void OnDisable()
     {
-        if (inputManager != null) inputManager.SetCursorLocked(false);
+        if (inputHandler != null) inputHandler.SetCursorLocked(false);
     }
 
     // 6) Metodi pubblici
@@ -102,15 +102,15 @@ public class CharacterLookController : MonoBehaviour
     // 7) Metodi privati
     private void HandleLook()
     {
-        // leggi look dal manager locale (preferenza) o dal global fallback
-        if (inputManager == null) return;
+        // leggi look dal manager locale (preferenza)
+        if (inputHandler == null) return;
 
-        Vector2 rawDelta = inputManager.look;
+        Vector2 rawDelta = inputHandler.look;
 
         // invert Y se richiesto
         if (invertY) rawDelta.y = -rawDelta.y;
 
-        // applica tranquillamente sensitivity (no deltaTime, no smoothing)
+        // applica sensitivity (no deltaTime, no smoothing)
         float deltaYaw = rawDelta.x * Sensitivity * .01f;
         float deltaPitch = rawDelta.y * Sensitivity * .01f;
 
