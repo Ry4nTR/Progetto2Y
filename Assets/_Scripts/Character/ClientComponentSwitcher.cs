@@ -3,19 +3,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Attiva/disattiva componenti all'interno del player controllando se il player è l'owner.
+/// Attiva/disattiva componenti all'interno del player controllando se il player è locale (IsOwner) o server (IsServer).
 /// <!--/summary>-->
 public class ClientComponentSwitcher : NetworkBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private CharacterLookController lookController;
+    [SerializeField] private CharacterController characterController;
 
     private void Awake()
     {
         playerInput.enabled = false;
         inputHandler.enabled = false;
         lookController.enabled = false;
+        characterController.enabled = false;
     }
 
     public override void OnNetworkSpawn()
@@ -31,6 +33,7 @@ public class ClientComponentSwitcher : NetworkBehaviour
         if (IsServer)
         {
             lookController.enabled = true;
+            characterController.enabled = true;
         }
     }
 
