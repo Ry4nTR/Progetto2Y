@@ -10,7 +10,7 @@ public class ClientComponentSwitcher : NetworkBehaviour
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private CharacterLookController lookController;
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private MovementController characterController;
 
     private void Awake()
     {
