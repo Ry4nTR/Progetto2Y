@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 831554826967024705}
   - component: {fileID: 5319410118133494551}
   - component: {fileID: -2986967647247276543}
+  - component: {fileID: 2476011265268299710}
   - component: {fileID: 1006538556253672887}
   - component: {fileID: 2123195640468736219}
   - component: {fileID: -5150983386000787151}
@@ -123,6 +124,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterController
   _orientation: {fileID: 0}
+--- !u!114 &2476011265268299710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338101018676570622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a113e74235ae9ae4098a8dcac6eb6478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
 --- !u!114 &1006538556253672887
 MonoBehaviour:
   m_ObjectHideFlags: 0

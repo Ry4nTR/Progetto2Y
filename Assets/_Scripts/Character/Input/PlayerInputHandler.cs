@@ -82,17 +82,14 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    // 6) SendMessage target methods (PlayerInput -> Send Messages)
 #if ENABLE_INPUT_SYSTEM
     public void OnMove(InputAction.CallbackContext context)
     {
-        //MoveInput(value.Get<Vector2>());
         MoveInput(context.ReadValue<Vector2>());
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        //LookInput(value.Get<Vector2>());
         LookInput(context.ReadValue<Vector2>());
     }
 

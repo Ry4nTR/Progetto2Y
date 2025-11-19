@@ -2,13 +2,15 @@ using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 [RequireComponent (typeof(CharacterController))]
+[RequireComponent (typeof(CharacterStats))]
 public class MovementController : MonoBehaviour
 {
 
     [SerializeField] private GameObject _orientation;
 
-    private CharacterController characterController;
-    private PlayerInputHandler playerInputHandler;
+    private PlayerInputHandler _playerInputHandler;
+    private CharacterController _characterController;
+    private CharacterStats _characterStats;
 
     /// <summary>
     /// Il vettore di movimento orizzontale del character. Indica lo spostamento orizzontale ad ogni frame del FixedUpdate
@@ -21,19 +23,22 @@ public class MovementController : MonoBehaviour
 
     private bool myJump;
 
-    private void OnValidate()
+    private void Awake()
     {
-        if (characterController == null)
-            characterController = GetComponent<CharacterController>();
+        if (_playerInputHandler == null)
+            _playerInputHandler = GetComponent<PlayerInputHandler>();
 
-        if (playerInputHandler == null)
-            playerInputHandler = GetComponent<PlayerInputHandler>();
+        if (_characterController == null)
+            _characterController = GetComponent<CharacterController>();
+
+        if (_characterStats == null)
+            _characterStats = GetComponent<CharacterStats>();
     }
 
 
     private void FixedUpdate()
     {
-        myJump = playerInputHandler.jump;
+        myJump = _playerInputHandler.jump;
 
         Walk();
         ApplyGravity();
@@ -44,24 +49,24 @@ public class MovementController : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (characterController.isGrounded && _verticalVelocity <= 0f)
+        if (_characterController.isGrounded && _verticalVelocity <= 0f)
         {
             _verticalVelocity = -.1f;
         }
 
-        _verticalVelocity += (-9.81f * Time.fixedDeltaTime);
+        _verticalVelocity -= (_characterStats.Gravity * Time.fixedDeltaTime);
     }
 
     private void Walk()
     {
-        if (playerInputHandler.move.magnitude > 0f)
+        if (_playerInputHandler.move.magnitude > 0f)
         {
-            Vector3 motion = _orientation.transform.forward * playerInputHandler.move.y + _orientation.transform.right * playerInputHandler.move.x;
+            Vector3 motion = _orientation.transform.forward * _playerInputHandler.move.y + _orientation.transform.right * _playerInputHandler.move.x;
             motion.y = 0f;
             motion.Normalize();
 
             //_horizontalVelocity += motion;
-            _horizontalVelocity = new Vector2(motion.x, motion.z);
+            _horizontalVelocity = new Vector2(motion.x, motion.z) * _characterStats.WalkSpeed;
         }
         else
         {
@@ -71,15 +76,15 @@ public class MovementController : MonoBehaviour
 
     private void Jump()
     {
-        if (myJump && characterController.isGrounded)
+        if (myJump && _characterController.isGrounded)
         {
-            _verticalVelocity += 10f;
+            _verticalVelocity += _characterStats.JumpHeight;
         }
     }
 
     private void ProcessMovement()
     {
         Vector3 _velocity = new Vector3(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.y);
-        characterController.Move(_velocity * Time.fixedDeltaTime);
+        _characterController.Move(_velocity * Time.fixedDeltaTime);
     }
 }
