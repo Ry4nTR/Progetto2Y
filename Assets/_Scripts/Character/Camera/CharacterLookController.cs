@@ -8,8 +8,8 @@
 public class CharacterLookController : MonoBehaviour
 {
     // 1) Statici / costanti
-    private const float DEFAULT_MAX_PITCH = 50f;
-    private const float DEFAULT_MIN_PITCH = -40f;
+    private const float DEFAULT_MAX_PITCH = 90f;
+    private const float DEFAULT_MIN_PITCH = -90f;
 
     // 2) Campi pubblici/serializzati
     [SerializeField] private PlayerInputHandler inputHandler;

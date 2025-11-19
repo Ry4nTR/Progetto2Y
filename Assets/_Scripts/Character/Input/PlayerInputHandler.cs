@@ -37,13 +37,13 @@ public class PlayerInputHandler : MonoBehaviour
     private void Awake()
     {
         _controls = new PlayerInputSystem();
-        if (_controls != null)
+        if (_controls == null)
         {
             Debug.LogError("There is an error intializing player input map!");
         }
 
         _playerInput = GetComponent<PlayerInput>();
-        if (_playerInput != null)
+        if (_playerInput == null)
         {
             Debug.LogError("Can't find the PlayerInputComponent!");
         }

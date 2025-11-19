@@ -7,6 +7,10 @@ using UnityEngine.InputSystem;
 /// <!--/summary>-->
 public class ClientComponentSwitcher : NetworkBehaviour
 {
+    //TODO Questa roba serve per testare più velocemente il character. Da rimuovere quando non serve più
+    [SerializeField] private bool stopDisablingComponentsPlease = false;
+
+
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private CharacterLookController lookController;
@@ -14,26 +18,32 @@ public class ClientComponentSwitcher : NetworkBehaviour
 
     private void Awake()
     {
-        playerInput.enabled = false;
-        inputHandler.enabled = false;
-        lookController.enabled = false;
-        characterController.enabled = false;
+        if (!stopDisablingComponentsPlease)
+        {
+            playerInput.enabled = false;
+            inputHandler.enabled = false;
+            lookController.enabled = false;
+            characterController.enabled = false;
+        }
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        if (IsOwner)
+        if (stopDisablingComponentsPlease)
         {
-            playerInput.enabled = true;
-            inputHandler.enabled = true;
-        }
+            if (IsOwner)
+            {
+                playerInput.enabled = true;
+                inputHandler.enabled = true;
+            }
 
-        if (IsServer)
-        {
-            lookController.enabled = true;
-            characterController.enabled = true;
+            if (IsServer)
+            {
+                lookController.enabled = true;
+                characterController.enabled = true;
+            }
         }
     }
 
