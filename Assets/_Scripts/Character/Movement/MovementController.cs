@@ -21,6 +21,7 @@ public class MovementController : MonoBehaviour
     void Jump()
     {
         characterController.Move(new Vector3(0, 1, 0));
+        Debug.Log("Sono qui dentro e myJump è: " + myJump.ToString());
     }
 
     private void FixedUpdate()

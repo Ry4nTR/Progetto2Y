@@ -27,18 +27,40 @@ public class PlayerInputHandler : MonoBehaviour
     public float scroll;
 
     // 3) Campi privati
-    // (nessuno)
+    private PlayerInput _playerInput;
+    private PlayerInputSystem _controls;
 
     // 4) Event facoltativi
     public event Action<Vector2> OnLookEvent = delegate { };
 
     // 5) MonoBehaviour methods
+    private void Awake()
+    {
+        _controls = new PlayerInputSystem();
+        if (_controls != null)
+        {
+            Debug.LogError("There is an error intializing player input map!");
+        }
+
+        _playerInput = GetComponent<PlayerInput>();
+        if (_playerInput != null)
+        {
+            Debug.LogError("Can't find the PlayerInputComponent!");
+        }
+    }
+
     private void OnEnable()
     {
         if (lockCursorOnEnable)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+
+        if (_controls != null)
+        {
+            _controls.Enable();
+            SubscribeAllInputs();
         }
 
         // reset iniziale
@@ -51,41 +73,52 @@ public class PlayerInputHandler : MonoBehaviour
         scroll = 0f;
     }
 
+    private void OnDisable()
+    {
+        if (_controls != null)
+        {
+            _controls.Disable();
+            UnsubscribeAllInputs();
+        }
+    }
+
     // 6) SendMessage target methods (PlayerInput -> Send Messages)
 #if ENABLE_INPUT_SYSTEM
-    public void OnMove(InputValue value)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        MoveInput(value.Get<Vector2>());
+        //MoveInput(value.Get<Vector2>());
+        MoveInput(context.ReadValue<Vector2>());
     }
 
-    public void OnLook(InputValue value)
+    public void OnLook(InputAction.CallbackContext context)
     {
-        LookInput(value.Get<Vector2>());
+        //LookInput(value.Get<Vector2>());
+        LookInput(context.ReadValue<Vector2>());
     }
 
-    public void OnJump(InputValue value)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        JumpInput(value.isPressed);
+        JumpInput(context.performed);
     }
 
-    public void OnSprint(InputValue value)
+    public void OnSprint(InputAction.CallbackContext context)
     {
-        SprintInput(value.isPressed);
+        SprintInput(context.performed);
     }
 
-    public void OnFire(InputValue value)
+    public void OnFire(InputAction.CallbackContext context)
     {
-        FireInput(value.isPressed);
+        FireInput(context.performed);
     }
 
-    public void OnAim(InputValue value)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        AimInput(value.isPressed);
+        AimInput(context.performed);
     }
 
-    public void OnScroll(InputValue value)
+    public void OnScroll(InputAction.CallbackContext context)
     {
-        ScrollInput(value.Get<float>());
+        ScrollInput(context.ReadValue<float>());
     }
 #endif
 
@@ -130,5 +163,53 @@ public class PlayerInputHandler : MonoBehaviour
     {
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !locked;
+    }
+
+    // Metodi privati
+    private void SubscribeAllInputs()
+    {
+        _controls.Player.Move.performed += OnMove;
+        _controls.Player.Move.canceled += OnMove;
+
+        _controls.Player.Look.performed += OnLook;
+        _controls.Player.Look.canceled += OnLook;
+
+        _controls.Player.Jump.performed += OnJump;
+        _controls.Player.Jump.canceled += OnJump;
+
+        _controls.Player.Sprint.performed += OnSprint;
+        _controls.Player.Sprint.canceled += OnSprint;
+
+        _controls.Player.Fire.performed += OnFire;
+        _controls.Player.Fire.canceled += OnFire;
+
+        _controls.Player.Aim.performed += OnAim;
+        _controls.Player.Aim.canceled += OnAim;
+
+        //_playerInput.Player.Scroll.performed += OnScroll;
+        //_playerInput.Player.Scroll.canceled += OnScroll;
+    }
+    private void UnsubscribeAllInputs()
+    {
+        _controls.Player.Move.performed -= OnMove;
+        _controls.Player.Move.canceled -= OnMove;
+
+        _controls.Player.Look.performed -= OnLook;
+        _controls.Player.Look.canceled -= OnLook;
+
+        _controls.Player.Jump.performed -= OnJump;
+        _controls.Player.Jump.canceled -= OnJump;
+
+        _controls.Player.Sprint.performed -= OnSprint;
+        _controls.Player.Sprint.canceled -= OnSprint;
+
+        _controls.Player.Fire.performed -= OnFire;
+        _controls.Player.Fire.canceled -= OnFire;
+
+        _controls.Player.Aim.performed -= OnAim;
+        _controls.Player.Aim.canceled -= OnAim;
+
+        //_playerInput.Player.Scroll.performed -= OnScroll;
+        //_playerInput.Player.Scroll.canceled -= OnScroll;
     }
 }
