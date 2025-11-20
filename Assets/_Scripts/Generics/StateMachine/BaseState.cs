@@ -4,6 +4,16 @@ namespace SyncedRush.Generics
 {
     public abstract class BaseState<TStateEnum> where TStateEnum : Enum
     {
+        private BaseStateMachine<TStateEnum, BaseState<TStateEnum>> _parentStateMachine;
+
+        protected BaseStateMachine<TStateEnum, BaseState<TStateEnum>> ParentStateMachine => _parentStateMachine;
+
+        public void SetParentStateMachine(BaseStateMachine<TStateEnum, BaseState<TStateEnum>> parentStateMachine)
+        {
+            if (parentStateMachine == null)
+                _parentStateMachine = parentStateMachine;
+        }
+
         public virtual void EnterState() { }
 
         public virtual void ExitState() { }

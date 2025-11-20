@@ -6,10 +6,6 @@ using UnityEngine;
 /// </summary>
 public class CharacterStats : MonoBehaviour
 {
-    // Campi statici/costanti
-
-    // Campi pubblici/serializzati
-
     // Campi privati
     [SerializeField] private float _walkSpeed = 2f;
     [SerializeField] private float _jumpHeight = 4f;
@@ -19,16 +15,4 @@ public class CharacterStats : MonoBehaviour
     public float WalkSpeed => _walkSpeed;
     public float JumpHeight => _jumpHeight;
     public float Gravity => _gravity;
-
-    // Metodi MonoBehaviour di Unity
-    //  Awake
-    //  OnEnable
-    //  Start
-    //  Update
-    //  FixedUpdate
-    //  LateUpdate
-    //  OnDisable
-    //  OnDestroy
-    // Metodi pubblici
-    // Metodi privati
 }

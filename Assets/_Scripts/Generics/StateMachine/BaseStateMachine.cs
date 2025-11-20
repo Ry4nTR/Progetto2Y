@@ -6,7 +6,7 @@ namespace SyncedRush.Generics
 {
     /// <summary>
     /// State Machine generica ed ereditabile. Overkill? Penso proprio di si, ma me ne sono accorto troppo tardi.<br/>
-    /// Il valore di default di TStateEnum (cioè l'elemento 0) indica "Nessuno stato", e serve solo a <see cref="QueuedState"/>.
+    /// Il valore di default di TStateEnum (cioè l'elemento 0) indica "Nessuno stato", e serve solo a <see cref="QueuedStateEnum"/>.
     /// </summary>
     public abstract class BaseStateMachine<TStateEnum, TState> : MonoBehaviour
         where TStateEnum : Enum
@@ -17,8 +17,9 @@ namespace SyncedRush.Generics
         [SerializeField] private Dictionary<TStateEnum, TState> _states = new();
 
         public TState CurrentState { get; private set; }
+        public TStateEnum CurrentStateEnum { get; private set; }
         /// <summary> Il QueuedState serve agli stati in uscita per capire qual'è il prossimo stato </summary>
-        public TStateEnum QueuedState { get; private set; }
+        public TStateEnum QueuedStateEnum { get; private set; }
 
 
         public void Initialize(Dictionary<TStateEnum, TState> allStates, TStateEnum initialState)
@@ -28,17 +29,22 @@ namespace SyncedRush.Generics
             ChangeState(initialState);
         }
 
-        public void ChangeState(TStateEnum state)
+        public void ChangeState(TStateEnum state, bool forceRenter = false)
         {
             if (_states.TryGetValue(state, out TState newState))
             {
-                QueuedState = state;
-                if (CurrentState != newState)
+                QueuedStateEnum = state;
+
+                bool sameState = CurrentState == newState;
+                if (!sameState)
                     CurrentState?.ExitState();
 
-                QueuedState = default;
+                QueuedStateEnum = default;
+                CurrentStateEnum = state;
                 CurrentState = newState;
-                CurrentState.EnterState();
+
+                if (forceRenter || !sameState)
+                    CurrentState.EnterState();
             }
             else
                 Debug.LogError("Stato non trovato!");
@@ -47,7 +53,7 @@ namespace SyncedRush.Generics
         public void ProcessFixedUpdate()
         {
             TStateEnum newState = CurrentState.ProcessFixedUpdate();
-            if (newState != null)
+            if (newState != null && !newState.Equals(default(TStateEnum)))
                 ChangeState(newState);
         }
     }
