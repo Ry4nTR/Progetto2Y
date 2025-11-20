@@ -1,7 +1,4 @@
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// Gestisce le statistiche del character. (es. <see cref="_walkSpeed"/>)<br/>

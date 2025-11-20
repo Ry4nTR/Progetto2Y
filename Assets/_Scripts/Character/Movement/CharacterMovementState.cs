@@ -1,0 +1,38 @@
+using SyncedRush.Generics;
+using UnityEngine;
+
+namespace SyncedRush.Character.Movement
+{
+	public abstract class CharacterMovementState : BaseState<MovementState>
+	{
+		// Campi statici/costanti
+
+		// Campi pubblici/serializzati
+
+		// Campi privati
+
+		// Proprietà
+
+		// Metodi MonoBehaviour di Unity
+		// 	Awake
+
+		// 	OnEnable
+
+		// 	Start
+
+		// 	Update
+
+		// 	FixedUpdate
+
+		// 	LateUpdate
+
+		// 	OnDisable
+
+		// 	OnDestroy
+
+		// Metodi pubblici
+
+		// Metodi privati
+
+	}
+}

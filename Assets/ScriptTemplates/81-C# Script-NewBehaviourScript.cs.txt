@@ -1,0 +1,36 @@
+using UnityEngine;
+
+    #ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : MonoBehaviour
+{
+	// Campi statici/costanti
+
+	// Campi pubblici/serializzati
+
+	// Campi privati
+
+	// Proprietà
+
+	// Metodi MonoBehaviour di Unity
+	// 	Awake
+
+	// 	OnEnable
+
+	// 	Start
+
+	// 	Update
+
+	// 	FixedUpdate
+
+	// 	LateUpdate
+
+	// 	OnDisable
+
+	// 	OnDestroy
+
+	// Metodi pubblici
+
+	// Metodi privati
+
+}
+#ROOTNAMESPACEEND#

@@ -1,16 +1,17 @@
-using UnityEditor.ShaderKeywordFilter;
+using SyncedRush.Generics;
 using UnityEngine;
 
 [RequireComponent (typeof(CharacterController))]
 [RequireComponent (typeof(CharacterStats))]
 public class MovementController : MonoBehaviour
 {
-
     [SerializeField] private GameObject _orientation;
 
     private PlayerInputHandler _playerInputHandler;
     private CharacterController _characterController;
     private CharacterStats _characterStats;
+
+    //private StateMachine<test, State> sugomas;
 
     /// <summary>
     /// Il vettore di movimento orizzontale del character. Indica lo spostamento orizzontale ad ogni frame del FixedUpdate

@@ -246,23 +246,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &142588075 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2338101018676570622, guid: 06d2d2216f6dc4b45aa17064cd622129, type: 3}
-  m_PrefabInstance: {fileID: 1935724464}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &142588085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142588075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a113e74235ae9ae4098a8dcac6eb6478, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
 --- !u!1 &1008693239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,10 +995,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2338101018676570622, guid: 06d2d2216f6dc4b45aa17064cd622129, type: 3}
-      insertIndex: 5
-      addedObject: {fileID: 142588085}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06d2d2216f6dc4b45aa17064cd622129, type: 3}
 --- !u!1 &1935724465 stripped
 GameObject:
